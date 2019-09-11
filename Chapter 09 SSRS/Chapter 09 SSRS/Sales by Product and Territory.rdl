@@ -244,10 +244,18 @@
                           </Textbox>
                         </CellContents>
                       </TablixHeader>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                        <ToggleItem>EnglishProductSubcategoryName</ToggleItem>
+                      </Visibility>
                       <DataElementOutput>Output</DataElementOutput>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                   </TablixMembers>
+                  <Visibility>
+                    <Hidden>true</Hidden>
+                    <ToggleItem>EnglishProductCategoryName</ToggleItem>
+                  </Visibility>
                   <DataElementOutput>Output</DataElementOutput>
                 </TablixMember>
               </TablixMembers>
@@ -393,12 +401,21 @@
                               <PaddingBottom>2pt</PaddingBottom>
                             </Style>
                           </Textbox>
+                          <rd:Selected>true</rd:Selected>
                         </CellContents>
                       </TablixHeader>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                        <ToggleItem>SalesTerritoryCountry</ToggleItem>
+                      </Visibility>
                       <DataElementOutput>Output</DataElementOutput>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                   </TablixMembers>
+                  <Visibility>
+                    <Hidden>true</Hidden>
+                    <ToggleItem>SalesTerritoryGroup</ToggleItem>
+                  </Visibility>
                   <DataElementOutput>Output</DataElementOutput>
                 </TablixMember>
               </TablixMembers>

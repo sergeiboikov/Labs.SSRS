@@ -401,7 +401,6 @@
                               <PaddingBottom>2pt</PaddingBottom>
                             </Style>
                           </Textbox>
-                          <rd:Selected>true</rd:Selected>
                         </CellContents>
                       </TablixHeader>
                       <Visibility>
@@ -488,6 +487,14 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>AdventureWorksDW2012</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Year">
+            <Value>=Parameters!Year.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Month">
+            <Value>=Parameters!Month.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT dpc.EnglishProductCategoryName,
 dps.EnglishProductSubcategoryName,
 dp.EnglishProductName,
@@ -499,7 +506,9 @@ FROM DimProduct dp
 INNER JOIN DimProductSubcategory dps ON dp.ProductSubcategoryKey = dps.ProductSubcategoryKey 
 INNER JOIN DimProductCategory dpc ON dps.ProductCategoryKey = dpc.ProductCategoryKey 
 INNER JOIN FactInternetSales fis ON dp.ProductKey = fis.ProductKey 
-INNER JOIN DimSalesTerritory dst ON fis.SalesTerritoryKey = dst.SalesTerritoryKey</CommandText>
+INNER JOIN DimSalesTerritory dst ON fis.SalesTerritoryKey = dst.SalesTerritoryKey
+WHERE (fis.OrderDateKey / 10000 = @Year)
+AND ((fis.OrderDateKey / 100 % 100) IN (@Month))</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -533,7 +542,73 @@ INNER JOIN DimSalesTerritory dst ON fis.SalesTerritoryKey = dst.SalesTerritoryKe
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="Years">
+      <Query>
+        <DataSourceName>AdventureWorksDW2012</DataSourceName>
+        <CommandText>SELECT distinct (OrderDateKey/10000) as [Year]
+FROM FactInternetSales</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Year">
+          <DataField>Year</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Months">
+      <Query>
+        <DataSourceName>AdventureWorksDW2012</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Year">
+            <Value>=Parameters!Year.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT DISTINCT DATENAME(MONTH,convert(date,convert(varchar(8),OrderDateKey),112)) as [MonthName]
+,DATEPART(MONTH,convert(date,convert(varchar(8),OrderDateKey),
+112)) as [MonthKey]
+FROM FactInternetSales
+where OrderDateKey/10000=@Year
+order by DATEPART(MONTH,convert(date,convert
+(varchar(8),OrderDateKey),
+112))</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="MonthName">
+          <DataField>MonthName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MonthKey">
+          <DataField>MonthKey</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="Year">
+      <DataType>String</DataType>
+      <Prompt>Year</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Years</DataSetName>
+          <ValueField>Year</ValueField>
+          <LabelField>Year</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Month">
+      <DataType>String</DataType>
+      <Prompt>Month</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Months</DataSetName>
+          <ValueField>MonthKey</ValueField>
+          <LabelField>MonthName</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
   <Language>en-US</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

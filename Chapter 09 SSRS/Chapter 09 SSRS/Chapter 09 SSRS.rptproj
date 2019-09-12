@@ -8,6 +8,10 @@
       <Name>Sales by Product and Territory.rdl</Name>
       <FullPath>Sales by Product and Territory.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Customers.rdl</Name>
+      <FullPath>Customers.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>

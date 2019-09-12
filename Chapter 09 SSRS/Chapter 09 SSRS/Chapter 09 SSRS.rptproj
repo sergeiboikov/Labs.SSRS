@@ -20,6 +20,7 @@
       <Options>
         <OutputPath>bin\Debug</OutputPath>
         <TargetServerVersion>SSRS2008R2</TargetServerVersion>
+        <TargetServerURL>https://eprusarw1252.saratov.epam.com/ReportServer_MSSQL2012</TargetServerURL>
         <TargetFolder>Chapter 09 SSRS</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
         <TargetDatasetFolder>Datasets</TargetDatasetFolder>
